@@ -29,6 +29,11 @@ archives:
 checksum:
   name_template: 'checksums.txt'
 
+artifacts:
+  - name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_v{{ .Version }}"
+    builds:
+      - '{{ .ProjectName }}_v{{ .Version }}'
+
 release:
   github:
     owner: fracticated
