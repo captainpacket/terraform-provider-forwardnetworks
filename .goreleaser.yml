@@ -1,0 +1,58 @@
+# .goreleaser.yml
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}}'
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+    ignore:
+      - tags: /^v\d+\.\d+\.\d+-.+$/
+    binary: 'terraform-provider-forwardnetworks'
+
+archives:
+  - format: 'zip'
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    replacements:
+      darwin: macOS
+      linux: linux
+      windows: windows
+      386: i386
+      amd64: amd64
+    files:
+      - none*
+
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
+  algorithm: 'sha256'
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: 'ASC'
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - '^ci:'
+
+release:
+  github:
+    owner: fracticated
+    name: terraform-provider-forwardnetworks
+  draft: true
+  prerelease: auto
