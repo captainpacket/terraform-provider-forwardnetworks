@@ -33,5 +33,3 @@ release:
   github:
     owner: fracticated
     name: terraform-provider-forwardnetworks
-  artifacts:
-    - '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}_v{{ .Version }}*'
