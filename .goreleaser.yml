@@ -18,9 +18,8 @@ builds:
       - windows
     goarch:
       - amd64
-    tags: /^v\d+\.\d+\.\d+-.+$/
-    ignore:
-      - binary: 'terraform-provider-forwardnetworks'
+    main: ./cmd/terraform-provider-forwardnetworks
+    binary: terraform-provider-forwardnetworks
 
 archives:
   - format: 'zip'
