@@ -1,0 +1,32 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches:
+      - main # or the name of your primary branch
+
+jobs:
+  generate_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.x
+
+      - name: Install go-terraform-docs
+        run: go install github.com/terraform-docs/terraform-docs@v0.16.0
+
+      - name: Generate documentation
+        run: |
+          go generate
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update documentation"
+          branch: ${{ github.head_ref }}
+          file_pattern: "docs/"
